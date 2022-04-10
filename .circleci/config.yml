@@ -1,0 +1,23 @@
+version: 2.1
+
+executors:
+  typescript_default:
+    docker:
+      - image: 'cimg/node:17.9.0'
+  rust_default:
+    docker:
+      - image: 'cimg/rust:1.58.1'
+
+jobs:
+  TypeScript-lint:
+    executor: 'typescript_default'
+    steps:
+      - 'checkout'
+      - run: 'yarn install'
+      - run: 'yarn lint'
+
+workflows:
+  version: 2
+  run_test: # 全てのbranchで実行される.
+    jobs:
+      - 'TypeScript-lint'
